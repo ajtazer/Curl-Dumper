@@ -1,4 +1,4 @@
-# Dumper 🚀
+# Dumper 💦
 **A free, ephemeral file-sharing service built entirely on Cloudflare's free tier**  
 *(Pronounced "Cum Dump" - because why not)*  
 
