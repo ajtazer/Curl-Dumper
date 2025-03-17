@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cürl Dump</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --purple: #8B5CF6;
+            --pink: #EC4899;
+            --bg: #F3F4F6;
+            --dark: #1F2937;
+            --glow: 0 0 10px rgba(139, 92, 246, 0.7);
+        }
+
+        body {
+            font-family: 'Comic Neue', cursive;
+            background: var(--bg);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        header {
+            padding: 2rem;
+            background: linear-gradient(45deg, var(--purple), var(--pink));
+            background-size: 200% 200%;
+            color: white;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            animation: gradientMove 8s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Add a subtle pattern overlay */
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+
+        h1 {
+            font-family: 'Lobster', cursive;
+            font-size: 3.5rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            font-family: 'Lobster', cursive;
+            margin-top: 0.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        h3 {
+            color: var(--purple);
+            border-bottom: 2px dashed #ddd;
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .emoji-container {
+            font-size: 2rem;
+            margin: 1rem 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .instructions {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            margin: 2rem 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .instructions:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+        }
+
+        code {
+            background: var(--dark);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            display: block;
+            margin: 1rem 0;
+            font-family: monospace;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        code::before {
+            content: "Click to copy";
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background: rgba(255,255,255,0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        code:hover {
+            background: #2D3748;
+            transform: scale(1.02);
+        }
+
+        code:hover::before {
+            opacity: 1;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            text-align: left;
+        }
+
+        .feature-item {
+            background: rgba(255,255,255,0.7);
+            padding: 1rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transform: translateY(-3px);
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+        }
+
+        footer {
+            margin-top: 3rem;
+            color: #6B7280;
+            padding: 1.5rem;
+            border-top: 2px dashed var(--purple);
+            position: relative;
+        }
+
+        .footer-emoji {
+            position: absolute;
+            right: 20px;
+            top: -15px;
+            font-size: 2rem;
+            animation: wave 2s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0); }
+            25% { transform: rotate(15deg); }
+            75% { transform: rotate(-15deg); }
+        }
+
+        .cloudflare-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 1rem;
+            padding: 8px 15px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .cloudflare-badge:hover {
+            transform: scale(1.05);
+            box-shadow: var(--glow);
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, var(--pink), var(--purple));
+            color: white;
+            font-family: 'Comic Neue', cursive;
+            font-weight: bold;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 1rem;
+            box-shadow: 0 4px 10px rgba(236, 72, 153, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(236, 72, 153, 0.4);
+        }
+
+        .neon-text {
+            text-shadow: 0 0 5px var(--pink), 0 0 10px var(--purple);
+        }
+
+        /* Custom tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Dark mode toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+                flex-direction: column;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Addition: Simple floating particles */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: var(--purple);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float-particle 15s infinite linear;
+        }
+        
+        @keyframes float-particle {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle background -->
+    <div class="particles-container" id="particles"></div>
+
+    <!-- Theme toggle -->
+    <button class="theme-toggle" id="themeToggle">🌙</button>
+
+    <div class="container">
+        <header>
+            <h1>
+                <span>Cürl Dump</span>
+                <span class="emoji-container">٩(◕‿◕)۶</span>
+            </h1>
+            <h2>(Pronounced as Cum Dump)</h2>
+            <p>Simple file sharing for command line warriors! ヽ(⌐■_■)ノ♪♬</p>
+        </header>
+
+        <div class="instructions">
+            <h2 class="neon-text">(☞ﾟ∀ﾟ)☞ How to Use</h2>
+            
+            <h3>📤 Upload File:</h3>
+            <code id="uploadCode">curl -T yourfile.txt https://dump.ajtazer.xyz</code>
+
+            <h3>📥 Download File:</h3>
+            <code id="downloadCode">wget https://dump.ajtazer.xyz/files/filename.txt</code>
+
+            <p style="margin-top: 1.5rem;" class="tooltip">(◕‿◕) Files auto-delete after 24 hours!
+                <span class="tooltip-text">No long-term storage</span>
+            </p>
+            
+        </div>
+
+        <div class="instructions">
+            <h2 class="neon-text">⚡ Features</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">⌐■_■</span>
+                    <span>CLI-first design</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">╯°□°</span>
+                    <span>No registration needed</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">ﾟヮﾟ</span>
+                    <span>Temporary storage</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">◕‿◕</span>
+                    <span>Direct download links</span>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-emoji">👋</div>
+            <p class="cta-button">Brought to you by TAZER</p>
+            <div class="cloudflare-badge">
+                <span>Made with</span>
+                <span style="color: var(--purple);">☁️ Cloudflare Workers</span>
+                <span>⚡</span>
+            </div>
+            <p style="margin-top: 1rem;">(˵¯͒〰¯͒˵) Keep calm and curl on!</p>
+            <p style="margin-top: 1rem;">Copied from bashupload.com</p>
+        </footer>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = Math.random() * 10 + 5;
+                const posX = Math.random() * 100;
+                const duration = Math.random() * 10 + 10;
+                const delay = Math.random() * 5;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.bottom = `-${size}px`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Copy code to clipboard
+        document.getElementById('uploadCode').addEventListener('click', function() {
+            navigator.clipboard.writeText(this.textContent);
+            alert('Copied to clipboard!');
+        });
+        
+        document.getElementById('downloadCode').addEventListener('click', function() {
+            navigator.clipboard.writeText(this.textContent);
+            alert('Copied to clipboard!');
+        });
+        
+        // Dark mode toggle functionality
+        let darkMode = false;
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            darkMode = !darkMode;
+            this.textContent = darkMode ? '☀️' : '🌙';
+            
+            if (darkMode) {
+                document.documentElement.style.setProperty('--bg', '#1a1a2e');
+                document.documentElement.style.setProperty('--dark', '#151515');
+                document.body.style.color = '#e1e1e1';
+            } else {
+                document.documentElement.style.setProperty('--bg', '#F3F4F6');
+                document.documentElement.style.setProperty('--dark', '#1F2937');
+                document.body.style.color = '#1F2937';
+            }
+        });
+        
+        // Initialize
+        createParticles();
+    </script>
+</body>
+</html>
