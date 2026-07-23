@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dumper",
+  "main": "worker.js",
+  "compatibility_date": "2025-03-17",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "r2_buckets": [
+    {
+      "binding": "cumdump",
+      "bucket_name": "dump-tazer"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "dump.bihari.xyz/*",
+      "zone_name": "bihari.xyz"
+    }
+  ]
+}

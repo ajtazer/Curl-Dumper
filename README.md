@@ -14,11 +14,11 @@
 
 ## Upload anything faster than you can say "curl"
 ```bash
-curl -T your_file.txt https://dumper.bihari.xyz
+curl -T your_file.txt https://dump.bihari.xyz
 ```
 ## Download before it's gone
 ```bash
-wget https://dumper.bihari.xyz/files/your_file.txt
+wget https://dump.bihari.xyz/files/your_file.txt
 ```
 # Why This Rocks 🤘
 - CLI Mogging
