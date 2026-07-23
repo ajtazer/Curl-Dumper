@@ -26,3 +26,10 @@ wget https://dump.bihari.xyz/files/your_file.txt
 - Zero config
 - Auto-nuked after 24h
 - Literally free
+
+## Developing the frontend
+```bash
+npm install
+npm run dev      # local preview
+npm run deploy   # build + wrangler deploy
+```

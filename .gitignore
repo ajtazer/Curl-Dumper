@@ -1,0 +1,11 @@
+node_modules
+dist
+.wrangler
+*.log
+.DS_Store
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+
+# raw camera footage, not for the repo — trimmed clip lives in public/videos
+IMG_3648.MOV

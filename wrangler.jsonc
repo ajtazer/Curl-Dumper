@@ -4,7 +4,7 @@
   "main": "worker.js",
   "compatibility_date": "2025-03-17",
   "assets": {
-    "directory": "./public",
+    "directory": "./dist",
     "binding": "ASSETS"
   },
   "r2_buckets": [
