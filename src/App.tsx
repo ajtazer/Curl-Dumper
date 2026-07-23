@@ -27,18 +27,22 @@ function CodeRow({ label, cmd }: { label: string; cmd: string }) {
   const [copied, setCopied] = useState(false)
   return (
     <div className="w-full max-w-2xl">
-      <p className="mb-2 text-sm text-muted">{label}</p>
-      <div className="flex items-center justify-between rounded-2xl border border-black/10 bg-black/[0.03] px-5 py-4">
-        <code className="text-sm sm:text-base text-black">{cmd}</code>
+      <p className="mb-3 font-serif text-2xl text-black">{label}</p>
+      <div className="flex items-center justify-between gap-4 rounded-2xl bg-black px-6 py-5 shadow-xl">
+        <code className="overflow-x-auto whitespace-nowrap text-base text-white sm:text-lg">
+          {cmd}
+        </code>
         <button
           onClick={async () => {
             await navigator.clipboard.writeText(cmd)
             setCopied(true)
             setTimeout(() => setCopied(false), 1500)
           }}
-          className="ml-4 shrink-0 text-sm text-muted transition-colors hover:text-black"
+          className={`shrink-0 rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+            copied ? 'bg-white text-black' : 'bg-white/10 text-white hover:bg-white/20'
+          }`}
         >
-          {copied ? 'Copied' : 'Copy'}
+          {copied ? 'Copied!' : 'Copy'}
         </button>
       </div>
     </div>
@@ -88,7 +92,8 @@ export default function App() {
         </div>
       </section>
 
-      <section className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 pb-32">
+      <section className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-10 px-6 pb-32">
+        <h2 className="font-serif text-3xl text-black sm:text-4xl">How it works</h2>
         <CodeRow label="Upload" cmd={UPLOAD_CMD} />
         <CodeRow label="Download" cmd={DOWNLOAD_CMD} />
       </section>
