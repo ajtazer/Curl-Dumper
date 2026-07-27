@@ -5,38 +5,49 @@ const FADE_DURATION = 0.5
 export default function VideoBackground({ src }: { src: string }) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const frameRef = useRef<number>()
+  const directionRef = useRef<'forward' | 'reverse'>('forward')
+  const lastTimestampRef = useRef<number | null>(null)
 
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
 
-    const tick = () => {
+    const tick = (timestamp: number) => {
       const { currentTime, duration } = video
+
       if (duration && !Number.isNaN(duration)) {
-        let opacity = 1
         if (currentTime < FADE_DURATION) {
-          opacity = currentTime / FADE_DURATION
-        } else if (currentTime > duration - FADE_DURATION) {
-          opacity = Math.max(0, (duration - currentTime) / FADE_DURATION)
+          video.style.opacity = String(currentTime / FADE_DURATION)
+        } else {
+          video.style.opacity = '1'
         }
-        video.style.opacity = String(opacity)
+
+        if (directionRef.current === 'forward') {
+          if (currentTime >= duration - 0.05) {
+            directionRef.current = 'reverse'
+            lastTimestampRef.current = timestamp
+            video.pause()
+          }
+        } else {
+          if (lastTimestampRef.current !== null) {
+            const dt = (timestamp - lastTimestampRef.current) / 1000
+            video.currentTime = Math.max(0, currentTime - dt)
+          }
+          lastTimestampRef.current = timestamp
+
+          if (video.currentTime <= 0) {
+            directionRef.current = 'forward'
+            lastTimestampRef.current = null
+            video.play()
+          }
+        }
       }
       frameRef.current = requestAnimationFrame(tick)
     }
     frameRef.current = requestAnimationFrame(tick)
 
-    const handleEnded = () => {
-      video.style.opacity = '0'
-      window.setTimeout(() => {
-        video.currentTime = 0
-        video.play()
-      }, 100)
-    }
-    video.addEventListener('ended', handleEnded)
-
     return () => {
       if (frameRef.current) cancelAnimationFrame(frameRef.current)
-      video.removeEventListener('ended', handleEnded)
     }
   }, [])
 

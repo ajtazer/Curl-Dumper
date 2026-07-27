@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import VideoBackground from './components/VideoBackground'
 
-const UPLOAD_CMD = 'curl -T yourfile.txt https://dump.bihari.xyz'
-const DOWNLOAD_CMD = 'wget https://dump.bihari.xyz/files/filename.txt'
+const UPLOAD_CMD = 'curl -T yourfile.txt dump.bihari.xyz'
+const DOWNLOAD_CMD = 'wget dump.bihari.xyz/files/filename.txt'
 
 function CopyButton({ text, className = '' }: { text: string; className?: string }) {
   const [copied, setCopied] = useState(false)
@@ -16,7 +16,7 @@ function CopyButton({ text, className = '' }: { text: string; className?: string
   return (
     <button
       onClick={copy}
-      className={`rounded-full bg-black px-12 py-4 text-base text-white transition-transform hover:scale-[1.03] ${className}`}
+      className={`rounded-full bg-black/75 px-12 py-4 text-base text-white backdrop-blur-sm transition-transform hover:scale-[1.03] ${className}`}
     >
       {copied ? 'Copied!' : 'Copy curl command'}
     </button>
@@ -64,7 +64,7 @@ export default function App() {
           href="https://github.com/ajtazer/Curl-Dumper"
           target="_blank"
           rel="noreferrer"
-          className="rounded-full bg-black px-6 py-2.5 text-sm text-white transition-transform hover:scale-[1.03]"
+          className="rounded-full bg-black/75 px-6 py-2.5 text-sm text-white backdrop-blur-sm transition-transform hover:scale-[1.03]"
         >
           GitHub
         </a>
