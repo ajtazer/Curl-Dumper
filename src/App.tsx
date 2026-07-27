@@ -16,7 +16,7 @@ function CopyButton({ text, className = '' }: { text: string; className?: string
   return (
     <button
       onClick={copy}
-      className={`rounded-full bg-black px-14 py-5 text-base text-white transition-transform hover:scale-[1.03] ${className}`}
+      className={`rounded-full bg-black px-12 py-4 text-base text-white transition-transform hover:scale-[1.03] ${className}`}
     >
       {copied ? 'Copied!' : 'Copy curl command'}
     </button>
@@ -28,7 +28,7 @@ function CodeRow({ label, cmd }: { label: string; cmd: string }) {
   return (
     <div className="w-full max-w-2xl">
       <p className="mb-3 font-serif text-2xl text-black">{label}</p>
-      <div className="flex items-center justify-between gap-4 rounded-2xl bg-black px-6 py-5 shadow-xl">
+      <div className="flex items-center justify-between gap-4 rounded-2xl bg-black px-6 py-4 shadow-xl">
         <code className="overflow-x-auto whitespace-nowrap text-base text-white sm:text-lg">
           {cmd}
         </code>
@@ -56,7 +56,7 @@ export default function App() {
         <VideoBackground src="/videos/hero.mp4" />
       </div>
 
-      <nav className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-8 py-6">
+      <nav className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-8 py-4">
         <span className="font-serif text-3xl tracking-tight text-black">
           dump.bihari.xyz
         </span>
@@ -70,30 +70,26 @@ export default function App() {
         </a>
       </nav>
 
-      <section
-        className="relative z-10 flex flex-col items-center justify-center px-6 pb-40 text-center"
-        style={{ paddingTop: 'calc(8rem - 75px)' }}
-      >
+      <section className="relative z-10 flex flex-col items-center justify-center px-6 pb-6 pt-4 text-center">
         <h1
-          className="max-w-7xl animate-fade-rise font-serif text-5xl font-normal text-black sm:text-7xl md:text-8xl"
+          className="max-w-7xl animate-fade-rise font-serif text-4xl font-normal text-black sm:text-6xl md:text-7xl"
           style={{ lineHeight: 0.95, letterSpacing: '-2.46px' }}
         >
           No signup, <span className="italic text-muted">no nonsense,</span> just curl.
         </h1>
 
-        <p className="mt-8 max-w-2xl animate-fade-rise-delay text-base leading-relaxed text-muted sm:text-lg">
+        <p className="mt-4 max-w-2xl animate-fade-rise-delay text-sm leading-relaxed text-muted sm:text-base">
           One Worker, one bucket, zero friction. Push files with curl, pull them with
           wget — everything vanishes after 24 hours so nothing lingers you didn't
           mean to keep.
         </p>
 
-        <div className="mt-12 animate-fade-rise-delay-2">
+        <div className="mt-6 animate-fade-rise-delay-2">
           <CopyButton text={UPLOAD_CMD} />
         </div>
       </section>
 
-      <section className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-10 px-6 pb-32">
-        <h2 className="font-serif text-3xl text-black sm:text-4xl">How it works</h2>
+      <section className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-4 px-6 pb-8">
         <CodeRow label="Upload" cmd={UPLOAD_CMD} />
         <CodeRow label="Download" cmd={DOWNLOAD_CMD} />
       </section>
