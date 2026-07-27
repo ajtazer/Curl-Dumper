@@ -56,7 +56,7 @@ export default function VideoBackground({ src }: { src: string }) {
         playsInline
         preload="auto"
         className="absolute inset-0 h-full w-full object-cover"
-        style={{ opacity: 0, transition: 'opacity 0.05s linear' }}
+        style={{ opacity: 0, objectPosition: 'center 80%', transition: 'opacity 0.05s linear' }}
       />
       <video
         ref={reverseRef}
@@ -65,7 +65,7 @@ export default function VideoBackground({ src }: { src: string }) {
         playsInline
         preload="auto"
         className="absolute inset-0 h-full w-full object-cover"
-        style={{ opacity: 0 }}
+        style={{ opacity: 0, objectPosition: 'center 80%' }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
     </div>
