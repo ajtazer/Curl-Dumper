@@ -2,51 +2,46 @@ import { useEffect, useRef } from 'react'
 
 const FADE_DURATION = 0.5
 
+function reverseSrc(src: string) {
+  return src.replace(/(\.[^./]+)$/, '-reverse$1')
+}
+
 export default function VideoBackground({ src }: { src: string }) {
-  const videoRef = useRef<HTMLVideoElement>(null)
+  const forwardRef = useRef<HTMLVideoElement>(null)
+  const reverseRef = useRef<HTMLVideoElement>(null)
   const frameRef = useRef<number>()
-  const directionRef = useRef<'forward' | 'reverse'>('forward')
-  const lastTimestampRef = useRef<number | null>(null)
+  const activeRef = useRef<'forward' | 'reverse'>('forward')
 
   useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
+    const forward = forwardRef.current
+    const reverse = reverseRef.current
+    if (!forward || !reverse) return
 
-    const tick = (timestamp: number) => {
-      const { currentTime, duration } = video
+    const swap = () => {
+      const from = activeRef.current === 'forward' ? forward : reverse
+      const to = activeRef.current === 'forward' ? reverse : forward
+      activeRef.current = activeRef.current === 'forward' ? 'reverse' : 'forward'
+      from.pause()
+      to.currentTime = 0
+      to.style.opacity = '1'
+      from.style.opacity = '0'
+      to.play()
+    }
+    forward.addEventListener('ended', swap)
+    reverse.addEventListener('ended', swap)
 
-      if (duration && !Number.isNaN(duration)) {
-        if (currentTime < FADE_DURATION) {
-          video.style.opacity = String(currentTime / FADE_DURATION)
-        } else {
-          video.style.opacity = '1'
-        }
-
-        if (directionRef.current === 'forward') {
-          if (currentTime >= duration - 0.05) {
-            directionRef.current = 'reverse'
-            lastTimestampRef.current = timestamp
-            video.pause()
-          }
-        } else {
-          if (lastTimestampRef.current !== null) {
-            const dt = (timestamp - lastTimestampRef.current) / 1000
-            video.currentTime = Math.max(0, currentTime - dt)
-          }
-          lastTimestampRef.current = timestamp
-
-          if (video.currentTime <= 0) {
-            directionRef.current = 'forward'
-            lastTimestampRef.current = null
-            video.play()
-          }
-        }
+    const tick = () => {
+      const video = activeRef.current === 'forward' ? forward : reverse
+      if (video.currentTime < FADE_DURATION && video === forward && activeRef.current === 'forward') {
+        video.style.opacity = String(video.currentTime / FADE_DURATION)
       }
       frameRef.current = requestAnimationFrame(tick)
     }
     frameRef.current = requestAnimationFrame(tick)
 
     return () => {
+      forward.removeEventListener('ended', swap)
+      reverse.removeEventListener('ended', swap)
       if (frameRef.current) cancelAnimationFrame(frameRef.current)
     }
   }, [])
@@ -54,13 +49,23 @@ export default function VideoBackground({ src }: { src: string }) {
   return (
     <div className="absolute" style={{ top: '300px', inset: 'auto 0 0 0' }}>
       <video
-        ref={videoRef}
+        ref={forwardRef}
         src={src}
         autoPlay
         muted
         playsInline
-        className="h-full w-full object-cover"
+        preload="auto"
+        className="absolute inset-0 h-full w-full object-cover"
         style={{ opacity: 0, transition: 'opacity 0.05s linear' }}
+      />
+      <video
+        ref={reverseRef}
+        src={reverseSrc(src)}
+        muted
+        playsInline
+        preload="auto"
+        className="absolute inset-0 h-full w-full object-cover"
+        style={{ opacity: 0 }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
     </div>
