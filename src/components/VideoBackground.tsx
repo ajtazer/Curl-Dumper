@@ -47,7 +47,7 @@ export default function VideoBackground({ src }: { src: string }) {
   }, [])
 
   return (
-    <div className="absolute" style={{ top: '300px', inset: 'auto 0 0 0' }}>
+    <div className="absolute inset-x-0 bottom-0" style={{ top: '300px' }}>
       <video
         ref={forwardRef}
         src={src}
