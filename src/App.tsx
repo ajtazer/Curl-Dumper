@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import VideoBackground from './components/VideoBackground'
 
-// Explicit https://: without -L, curl won't follow an http->https redirect,
-// so a scheme-less PUT would upload nothing once http redirects.
-const UPLOAD_CMD = 'curl -T yourfile.txt https://dump.bihari.xyz'
-const DOWNLOAD_CMD = 'wget https://dump.bihari.xyz/files/filename.txt'
+// No scheme on purpose: keeps the commands short (curl/wget default to http).
+const UPLOAD_CMD = 'curl -T yourfile.txt dump.bihari.xyz'
+const DOWNLOAD_CMD = 'wget dump.bihari.xyz/files/filename.txt'
 
 // navigator.clipboard is undefined outside secure contexts (e.g. plain http://),
 // so fall back to a hidden textarea + execCommand there.
