@@ -1,14 +1,36 @@
 import { useState } from 'react'
 import VideoBackground from './components/VideoBackground'
 
-const UPLOAD_CMD = 'curl -T yourfile.txt dump.bihari.xyz'
-const DOWNLOAD_CMD = 'wget dump.bihari.xyz/files/filename.txt'
+// Explicit https://: without -L, curl won't follow an http->https redirect,
+// so a scheme-less PUT would upload nothing once http redirects.
+const UPLOAD_CMD = 'curl -T yourfile.txt https://dump.bihari.xyz'
+const DOWNLOAD_CMD = 'wget https://dump.bihari.xyz/files/filename.txt'
+
+// navigator.clipboard is undefined outside secure contexts (e.g. plain http://),
+// so fall back to a hidden textarea + execCommand there.
+async function copyText(text: string): Promise<boolean> {
+  try {
+    await navigator.clipboard.writeText(text)
+    return true
+  } catch {
+    const ta = document.createElement('textarea')
+    ta.value = text
+    ta.setAttribute('readonly', '')
+    ta.style.position = 'fixed'
+    ta.style.opacity = '0'
+    document.body.appendChild(ta)
+    ta.select()
+    const ok = document.execCommand('copy')
+    document.body.removeChild(ta)
+    return ok
+  }
+}
 
 function CopyButton({ text, className = '' }: { text: string; className?: string }) {
   const [copied, setCopied] = useState(false)
 
   const copy = async () => {
-    await navigator.clipboard.writeText(text)
+    if (!(await copyText(text))) return
     setCopied(true)
     setTimeout(() => setCopied(false), 1500)
   }
@@ -34,7 +56,7 @@ function CodeRow({ label, cmd }: { label: string; cmd: string }) {
         </code>
         <button
           onClick={async () => {
-            await navigator.clipboard.writeText(cmd)
+            if (!(await copyText(cmd))) return
             setCopied(true)
             setTimeout(() => setCopied(false), 1500)
           }}

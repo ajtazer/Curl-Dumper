@@ -18,5 +18,9 @@
       "pattern": "dump.bihari.xyz/*",
       "zone_name": "bihari.xyz"
     }
-  ]
+  ],
+  // Hourly sweep that deletes uploads older than 24h (worker.js scheduled()).
+  "triggers": {
+    "crons": ["0 * * * *"]
+  }
 }
